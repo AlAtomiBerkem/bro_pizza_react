@@ -27,7 +27,7 @@ const BasketPage = () => {
                 <span>Очистить корзину</span>
               </div>
             </div>
-            <div class="content__items">
+            <div class="content__bascet">
               <div class="cart__item">
   <div class="cart__item-img">
     <img

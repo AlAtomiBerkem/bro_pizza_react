@@ -9,6 +9,8 @@ import Sceleton from '../components/pizzablock/sceleton';
 
 
 export const MainPage = () => {
+
+  // мои условные менеджеры состоянний пока не насчал 
     const [pizzas, setPizzas] = React.useState([]);
     const [isLauding, setIsLauding] = React.useState(true);
   
