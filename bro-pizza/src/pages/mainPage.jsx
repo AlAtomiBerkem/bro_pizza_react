@@ -18,11 +18,13 @@ export const MainPage = () => {
         .then((json) => {
           setPizzas(json);
           setIsLauding(false)});
-    }, []);
+          window.scroll(0, 0);
+        }, 
+    []);
 
     return (
         <>
-        <div className="content__top">
+               <div className="container">
         <Categories />
         <Sort />
       </div>
