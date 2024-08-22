@@ -1,15 +1,14 @@
 import React from "react";
 
 
-function Sort() {
+function Sort({value, clickchangeSort}) {
 
 const [isVisiblePopUp, setIsVisiblePopUp] = React.useState(false);
-const [done, setDone] = React.useState(0);
 const list = ['популярности', 'цене', 'алфавиту'];
-const listSelect = list[done];
+const listSelect = list[value];
 
 const oneClickListItem = (i) => {
-  setDone(i);
+  clickchangeSort(i);
   setIsVisiblePopUp(false);
 }
 
@@ -40,7 +39,7 @@ const oneClickListItem = (i) => {
             <li 
             key={i}
             onClick={() => oneClickListItem(i)}
-            className={done === i ? 'active' : ''}>
+            className={value === i ? 'active' : ''}>
             {items}
             </li>
           ))

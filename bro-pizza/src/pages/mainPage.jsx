@@ -10,25 +10,30 @@ import Sceleton from '../components/pizzablock/sceleton';
 
 export const MainPage = () => {
 
-  // мои условные менеджеры состоянний пока не насчал 
-    const [pizzas, setPizzas] = React.useState([]);
-    const [isLauding, setIsLauding] = React.useState(true);
   
+  const [pizzas, setPizzas] = React.useState([]);
+  const [isLauding, setIsLauding] = React.useState(true);
+  const [categori, setClickCategory] = React.useState(0);
+  const [sortItems, setSortItems] = React.useState(0);
+  
+  console.log(categori, sortItems, setSortItems);
+
     React.useEffect(() => {
-      fetch('https://66bfe071ba6f27ca9a554a5b.mockapi.io/items')
-        .then((res) => res.json())
-        .then((json) => {
-          setPizzas(json);
+      setIsLauding(true);
+      fetch(`https://66bfe071ba6f27ca9a554a5b.mockapi.io/items?category=${categori ? categori : ''}`)
+      .then((res) => res.json())
+      .then((json) => {
+        setPizzas(json);
           setIsLauding(false)});
           window.scroll(0, 0);
         }, 
-    []);
-
+    [categori]); 
+    
     return (
         <>
                <div className="container">
-        <Categories />
-        <Sort />
+        <Categories value={categori} oneClickCategory={(i) => setClickCategory(i)}/>
+        <Sort  value={sortItems} clickchangeSort={(i) => setSortItems(i)}/>
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
