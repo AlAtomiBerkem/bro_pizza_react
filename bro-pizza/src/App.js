@@ -17,7 +17,6 @@ function App() {
             <Route path="/" element={<MainPage/>}/>
             <Route path='/basket' element={<BasketPage/>}/>
             <Route path="*" element={<NotFound/>}/>
-            
           </Routes>
         </div>
       </div>
@@ -26,3 +25,6 @@ function App() {
 }
 
 export default App;
+
+
+
