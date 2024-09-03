@@ -14,20 +14,25 @@ export const MainPage = () => {
   const [pizzas, setPizzas] = React.useState([]);
   const [isLauding, setIsLauding] = React.useState(true);
   const [categori, setClickCategory] = React.useState(0);
-  const [sortItems, setSortItems] = React.useState(0);
+  const [sortItems, setSortItems] = React.useState({
+    name: 'популярности', 
+    setSortItems: 'rating'
+  });
   
-  console.log(categori, sortItems, setSortItems);
+  console.log( sortItems,  setClickCategory);
 
     React.useEffect(() => {
       setIsLauding(true);
-      fetch(`https://66bfe071ba6f27ca9a554a5b.mockapi.io/items?category=${categori ? categori : ''}`)
+      fetch(`https://66bfe071ba6f27ca9a554a5b.mockapi.io/items?${
+        categori > 0 ? `category=${categori}` : '' }&sortBy=${sortItems.setSortItems}&order`
+      )
       .then((res) => res.json())
       .then((json) => {
         setPizzas(json);
           setIsLauding(false)});
           window.scroll(0, 0);
         }, 
-    [categori]); 
+    [categori, sortItems]); 
     
     return (
         <>
