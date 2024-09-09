@@ -5,9 +5,6 @@ import Sort from '../components/sort';
 import Pizzablock from '../components/pizzablock';
 import Sceleton from '../components/pizzablock/sceleton';
 
-
-
-
 export const MainPage = () => {
 
   
@@ -16,16 +13,16 @@ export const MainPage = () => {
   const [categori, setClickCategory] = React.useState(0);
   const [sortItems, setSortItems] = React.useState({
     name: 'популярности', 
-    setSortItems: 'rating'
+    sort: 'rating',
   });
   
-  console.log( sortItems,  setClickCategory);
-
     React.useEffect(() => {
+      const sortBy = sortItems.sort.replace('-', '');
+      const order = sortItems.sort.includes('-') ? 'asc' : 'desc';
+      const category = categori > 0 ? `category=${categori}` : '';
+
       setIsLauding(true);
-      fetch(`https://66bfe071ba6f27ca9a554a5b.mockapi.io/items?${
-        categori > 0 ? `category=${categori}` : '' }&sortBy=${sortItems.setSortItems}&order`
-      )
+      fetch(`https://66bfe071ba6f27ca9a554a5b.mockapi.io/items?${category}&sortBy=${sortBy}&order=${order}`)
       .then((res) => res.json())
       .then((json) => {
         setPizzas(json);
@@ -33,7 +30,6 @@ export const MainPage = () => {
           window.scroll(0, 0);
         }, 
     [categori, sortItems]); 
-    
     return (
         <>
                <div className="container">

@@ -1,15 +1,17 @@
 import React from "react";
 
-function Sort({value, onChangeSort}) {
+function Sort({value, clickchangeSort}) {
   const [isVisiblePopUp, setIsVisiblePopUp] = React.useState(false);
   const list = [
-    {name: 'популярности', sort: 'rating'},
-    {name: 'цене', sort: 'price'},
-    {name: 'алфавиту', sort: 'title'}
+    {name: 'популярности (по убыванию)', sort: '-rating'},
+    {name: 'популярности (по возростанию)', sort: 'rating'},
+    {name: 'цене (по убыванию)', sort: '-price'},
+    {name: 'цене (по возростанию)', sort: 'price'},
+    {name: 'алфавиту (по убыванию)', sort: '-title'},
+    {name: 'алфавиту (по возростанию)', sort: 'title'}
   ];
-
   const onClickListItem = (i) => {
-    onChangeSort(i);
+    clickchangeSort(i);
     setIsVisiblePopUp(false);
   }
 
