@@ -1,5 +1,5 @@
 import './App.css';
-import React from 'react';
+import React, { createContext } from 'react';
 
 import Header from './components/header';
 import MainPage from './pages/mainPage';
@@ -7,14 +7,19 @@ import BasketPage from './pages/basketPage';
 import { Route, Routes } from 'react-router-dom';
 import NotFound from './pages/NotFount'
 
+
+ export const searchContext = React.createContext();
+
 function App() {
+
   const [searchValue, setSearchValue] = React.useState('');
 
   console.log(searchValue, 'INPUT VALUE');
 
   return (
-    <div className="wrapper">
-      <Header searchValue={searchValue} setSearchValue={setSearchValue}/>
+    <searchContext.Provider value={{searchValue, setSearchValue}}>
+          <div className="wrapper">
+      <Header/>
       <div className="content">
         <div className="container">
           <Routes>
@@ -25,6 +30,7 @@ function App() {
         </div>
       </div>
     </div>
+    </searchContext.Provider>
   );
 }
 

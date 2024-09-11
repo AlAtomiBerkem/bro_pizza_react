@@ -5,13 +5,16 @@ import Sort from '../components/sort';
 import Pizzablock from '../components/pizzablock';
 import Sceleton from '../components/pizzablock/sceleton';
 import Pagination from '../components/pogination/index'
+import { searchContext } from "../App";
 
-export const MainPage = ({searchValue }) => {
+export const MainPage = () => {
 
-  
+  const {searchValue} = React.useContext(searchContext);
+
   const [pizzas, setPizzas] = React.useState([]);
   const [isLauding, setIsLauding] = React.useState(true);
   const [categori, setClickCategory] = React.useState(0);
+  const [correntPage, setCurrentPage] = React.useState(1 )
   const [sortItems, setSortItems] = React.useState({
     name: 'популярности', 
     sort: 'rating',
@@ -24,14 +27,14 @@ export const MainPage = ({searchValue }) => {
   
 
       setIsLauding(true);
-      fetch(`https://66bfe071ba6f27ca9a554a5b.mockapi.io/items?${category}&sortBy=${sortBy}&order=${order}`)
+      fetch(`https://66bfe071ba6f27ca9a554a5b.mockapi.io/items?page=${correntPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}`)
       .then((res) => res.json())
       .then((json) => {
         setPizzas(json);
           setIsLauding(false)});
           window.scroll(0, 0);
         }, 
-    [categori, sortItems]); 
+    [categori, sortItems, correntPage]); 
 
     const sceletons = [...new Array(10)].map((_, index) => <Sceleton key={index} />)
 
@@ -53,8 +56,8 @@ export const MainPage = ({searchValue }) => {
       <div className="content__items">
         {isLauding ? sceletons : pizzs }
       </div>
-      <Pagination/>
-      </>
+      <Pagination onChangePage={number => setCurrentPage(number)}/>
+      </> 
     );
 }
 
