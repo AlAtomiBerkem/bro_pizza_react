@@ -7,14 +7,11 @@ import BasketPage from './pages/basketPage';
 import { Route, Routes } from 'react-router-dom';
 import NotFound from './pages/NotFount'
 
-
  export const searchContext = React.createContext();
 
 function App() {
 
   const [searchValue, setSearchValue] = React.useState('');
-
-  console.log(searchValue, 'INPUT VALUE');
 
   return (
     <searchContext.Provider value={{searchValue, setSearchValue}}>
