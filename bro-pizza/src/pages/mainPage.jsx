@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector, useDispatch } from 'react-redux'
 
 import Categories from '../components/Categories';
 import Sort from '../components/sort';
@@ -6,23 +7,27 @@ import Pizzablock from '../components/pizzablock';
 import Sceleton from '../components/pizzablock/sceleton';
 import Pagination from '../components/pogination/index'
 import { searchContext } from "../App";
-
+import { setCategoryId } from "../redux/slises/filterSlice";
 export const MainPage = () => {
 
-  const {searchValue} = React.useContext(searchContext);
 
+  const {categori, sort} = useSelector((state) => state.filters);
+  const sortItems = sort.sort;
+
+  const dispatch = useDispatch();
+  const oneClickCategory = (id) => {
+        dispatch(setCategoryId(id));
+  }
+
+  
+  const {searchValue} = React.useContext(searchContext);
   const [pizzas, setPizzas] = React.useState([]);
   const [isLauding, setIsLauding] = React.useState(true);
-  const [categori, setClickCategory] = React.useState(0);
   const [correntPage, setCurrentPage] = React.useState(1 )
-  const [sortItems, setSortItems] = React.useState({
-    name: 'популярности', 
-    sort: 'rating',
-  });
   
     React.useEffect(() => {
-      const sortBy = sortItems.sort.replace('-', '');
-      const order = sortItems.sort.includes('-') ? 'asc' : 'desc';
+      const sortBy = sortItems.replace('-', '');
+      const order = sortItems.includes('-') ? 'asc' : 'desc';
       const category = categori > 0 ? `category=${categori}` : '';
   
 
@@ -49,8 +54,8 @@ export const MainPage = () => {
 
         <>
                <div className="container">
-        <Categories value={categori} oneClickCategory={(i) => setClickCategory(i)}/>
-        <Sort  value={sortItems} clickchangeSort={(i) => setSortItems(i)}/>
+        <Categories value={categori} oneClickCategory={oneClickCategory}/>
+        <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
