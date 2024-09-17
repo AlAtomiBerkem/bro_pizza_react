@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from 'react-redux'
+import axios from 'axios'
 
 import Categories from '../components/Categories';
 import Sort from '../components/sort';
@@ -29,14 +30,14 @@ export const MainPage = () => {
       const sortBy = sortItems.replace('-', '');
       const order = sortItems.includes('-') ? 'asc' : 'desc';
       const category = categori > 0 ? `category=${categori}` : '';
-  
-
       setIsLauding(true);
-      fetch(`https://66bfe071ba6f27ca9a554a5b.mockapi.io/items?page=${correntPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}`)
-      .then((res) => res.json())
-      .then((json) => {
-        setPizzas(json);
-          setIsLauding(false)});
+
+      axios.get(`https://66bfe071ba6f27ca9a554a5b.mockapi.io/items?page=${correntPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}`) 
+      .then((Response) => {
+        setPizzas(Response.data)
+        setIsLauding(false)
+      })
+
           window.scroll(0, 0);
         }, 
     [categori, sortItems, correntPage]); 
