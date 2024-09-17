@@ -1,6 +1,6 @@
 import ReactPaginate from 'react-paginate';
 import styles from './pogination.module.scss'
-const Pogination = ({onChangePage}) => {
+const Pogination = ({onChangePage, currentPage}) => {
     return (
         <>
         <ReactPaginate
@@ -10,6 +10,7 @@ const Pogination = ({onChangePage}) => {
         onPageChange={(event) => onChangePage(event.selected + 1)}
         pageRangeDisplayed={4}
         pageCount={3}
+        forcePage={currentPage - 1}
         previousLabel="<"
         renderOnZeroPageCount={null}
       />
