@@ -8,11 +8,11 @@ import Pizzablock from '../components/pizzablock';
 import Sceleton from '../components/pizzablock/sceleton';
 import Pagination from '../components/pogination/index'
 import { searchContext } from "../App";
-import { setCategoryId } from "../redux/slises/filterSlice";
+import { setCategoryId, setPageCount } from "../redux/slises/filterSlice";
 export const MainPage = () => {
 
 
-  const {categori, sort} = useSelector((state) => state.filters);
+  const {categori, sort, currentPage} = useSelector((state) => state.filters);
   const sortItems = sort.sort;
 
   const dispatch = useDispatch();
@@ -20,6 +20,9 @@ export const MainPage = () => {
         dispatch(setCategoryId(id));
   }
 
+  const onChangePage = (nember) => {
+    dispatch(setCurrentPage(nember))
+  }
   
   const {searchValue} = React.useContext(searchContext);
   const [pizzas, setPizzas] = React.useState([]);
@@ -62,7 +65,7 @@ export const MainPage = () => {
       <div className="content__items">
         {isLauding ? sceletons : pizzs }
       </div>
-      <Pagination onChangePage={number => setCurrentPage(number)}/>
+      <Pagination currentPage={currentPage} onChangePage={onChangePage}/>
       </> 
     );
 }
