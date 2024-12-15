@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from 'react-redux'
+import axios from 'axios'
 
 import Categories from '../components/Categories';
 import Sort from '../components/sort';
@@ -7,11 +8,11 @@ import Pizzablock from '../components/pizzablock';
 import Sceleton from '../components/pizzablock/sceleton';
 import Pagination from '../components/pogination/index'
 import { searchContext } from "../App";
-import { setCategoryId } from "../redux/slises/filterSlice";
+import { setCategoryId, setPageCount } from "../redux/slises/filterSlice";
 export const MainPage = () => {
 
 
-  const {categori, sort} = useSelector((state) => state.filters);
+  const {categori, sort, currentPage} = useSelector((state) => state.filters);
   const sortItems = sort.sort;
 
   const dispatch = useDispatch();
@@ -19,6 +20,9 @@ export const MainPage = () => {
         dispatch(setCategoryId(id));
   }
 
+  const onChangePage = (nember) => {
+    dispatch(setCurrentPage(nember))
+  }
   
   const {searchValue} = React.useContext(searchContext);
   const [pizzas, setPizzas] = React.useState([]);
@@ -29,14 +33,14 @@ export const MainPage = () => {
       const sortBy = sortItems.replace('-', '');
       const order = sortItems.includes('-') ? 'asc' : 'desc';
       const category = categori > 0 ? `category=${categori}` : '';
-  
-
       setIsLauding(true);
-      fetch(`https://66bfe071ba6f27ca9a554a5b.mockapi.io/items?page=${correntPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}`)
-      .then((res) => res.json())
-      .then((json) => {
-        setPizzas(json);
-          setIsLauding(false)});
+
+      axios.get(`https://66bfe071ba6f27ca9a554a5b.mockapi.io/items?page=${correntPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}`) 
+      .then((Response) => {
+        setPizzas(Response.data)
+        setIsLauding(false)
+      })
+
           window.scroll(0, 0);
         }, 
     [categori, sortItems, correntPage]); 
@@ -61,7 +65,7 @@ export const MainPage = () => {
       <div className="content__items">
         {isLauding ? sceletons : pizzs }
       </div>
-      <Pagination onChangePage={number => setCurrentPage(number)}/>
+      <Pagination currentPage={currentPage} onChangePage={onChangePage}/>
       </> 
     );
 }

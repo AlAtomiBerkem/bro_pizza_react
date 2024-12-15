@@ -1,20 +1,45 @@
 import React from "react";
 import styles from "./Search.module.scss";
+import debounce from 'lodash.debounce'
 
 import {searchContext} from '../../App'
 
 const Search = () => {
-  const {searchValue, setSearchValue} = React.useContext(searchContext);
+  const [value, setValue] = React.useState();
+  const inputRef = React.useRef();
+
+  const {setSearchValue} = React.useContext(searchContext);
+  
+  const onClickClear = () => {
+    setSearchValue('');
+    setValue('')
+    inputRef.current.focus();
+  }
+
+  const updateSearcInput = React.useCallback(
+    debounce((value) => {
+      setSearchValue(value)
+      console.log(value)
+    }, 500),
+    [],
+  );
+
+  const onChangeInput = (event) => {
+    setValue(event.target.value)
+    updateSearcInput(event.target.value)
+  }
+
   return (
     <>
       <input
-        value={searchValue}
-        onChange={(event) => setSearchValue(event.target.value)}
+        ref = {inputRef}
+        value={value}
+        onChange={onChangeInput}
         className={styles.root}
         placeholder="Поиск пицы..."
       />
-      {searchValue && (
-        <svg onClick={() => setSearchValue('')} className={styles.logo}
+      {value && (
+        <svg onClick={onClickClear} className={styles.logo}
           xmlns="http://www.w3.org/2000/svg"
           height="14px"
           version="1.1"
@@ -24,7 +49,7 @@ const Search = () => {
           <title />
           <desc />
           <defs />
-          <g fill="none" fill-rule="evenodd" id="Page-1" stroke="none" stroke-width="1">
+          <g fill="none" fillRule="evenodd" id="Page-1" stroke="none" strokeWidth="1">
             <g fill="#000000" id="Core" transform="translate(-341.000000, -89.000000)">
               <g id="close" transform="translate(341.000000, 89.000000)">
                 <path
